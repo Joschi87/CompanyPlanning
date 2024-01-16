@@ -10,7 +10,7 @@ import javax.persistence.Id
 class model {
 
     @Id
-    private var id: UUID = UUID.randomUUID()
+    var id: UUID = UUID.randomUUID()
 
     var name: String ?= null
     var text: String ?= null

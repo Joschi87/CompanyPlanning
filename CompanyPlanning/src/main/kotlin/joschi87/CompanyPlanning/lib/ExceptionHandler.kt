@@ -1,0 +1,25 @@
+package joschi87.CompanyPlanning.lib
+
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.ControllerAdvice
+import org.springframework.web.bind.annotation.ExceptionHandler
+
+@ControllerAdvice
+class ExceptionHandler {
+
+    @ExceptionHandler(PlatoonExsitException::class)
+    fun handler(ex: PlatoonExsitException): ResponseEntity<String> {
+        return ResponseEntity<String>(ex.message, HttpStatus.CONFLICT)
+    }
+
+    @ExceptionHandler(LeaderHasPlatoon::class)
+    fun handler(ex: LeaderHasPlatoon): ResponseEntity<String>{
+        return ResponseEntity<String>(ex.message, HttpStatus.CONFLICT)
+    }
+
+    @ExceptionHandler(NoItemInDatabaseException::class)
+    fun handler(ex: NoItemInDatabaseException): ResponseEntity<String>{
+        return ResponseEntity<String>(ex.message, HttpStatus.NOT_FOUND)
+    }
+}

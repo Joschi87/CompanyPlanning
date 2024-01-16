@@ -11,7 +11,7 @@ import javax.persistence.Id
 class model {
 
     @Id
-    private var id: UUID = UUID.randomUUID()
+    var id: UUID = UUID.randomUUID()
 
     lateinit var platoonname: String
     lateinit var leader: String
