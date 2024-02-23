@@ -1,5 +1,6 @@
 package joschi87.CompanyPlanning.missions
 
+import joschi87.CompanyPlanning.platoon.model
 import lombok.Data
 import java.util.UUID
 import javax.persistence.Entity
@@ -16,6 +17,7 @@ class model {
     var text: String ?= null
     var finished: Boolean = false
     var activ: Boolean = false
+    var executingPlatoon: model ?= null
 
 
 }
