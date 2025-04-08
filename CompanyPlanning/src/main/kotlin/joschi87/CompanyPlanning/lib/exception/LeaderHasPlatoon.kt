@@ -1,4 +1,4 @@
-package joschi87.CompanyPlanning.lib
+package joschi87.CompanyPlanning.lib.exception
 
 import java.lang.Exception
 

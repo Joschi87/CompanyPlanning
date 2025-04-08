@@ -1,8 +1,8 @@
 package joschi87.CompanyPlanning.platoon
 
-import joschi87.CompanyPlanning.lib.LeaderHasPlatoon
-import joschi87.CompanyPlanning.lib.NoItemInDatabaseException
-import joschi87.CompanyPlanning.lib.PlatoonExsitException
+import joschi87.CompanyPlanning.lib.exception.LeaderHasPlatoon
+import joschi87.CompanyPlanning.lib.exception.NoItemInDatabaseException
+import joschi87.CompanyPlanning.lib.exception.PlatoonExsitException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.UUID
