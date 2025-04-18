@@ -1,6 +1,5 @@
 package joschi87.CompanyPlanning.missions
 
-import joschi87.CompanyPlanning.platoon.model
 import lombok.Data
 import java.util.UUID
 import javax.persistence.Entity
@@ -20,7 +19,7 @@ class Mission {
     var text: String ?= null
     var finished: Boolean = false
     var activ: Boolean = false
-    var executingPlatoon: model ?= null
+    var executingPlatoon: Platoon ?= null
 
     @ManyToOne
     @JoinColumn(name = "platoon_id") // FK in der Mission-Tabelle
