@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import java.util.UUID
 
 @Component
-class service @Autowired constructor(var repo: repo){
+class service @Autowired constructor(var repo: Platoonrepo){
 
     fun getAllPlatoons(): MutableList<model> {
         return repo.findAll()

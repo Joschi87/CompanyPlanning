@@ -22,4 +22,9 @@ class ExceptionHandler {
     fun handler(ex: NoItemInDatabaseException): ResponseEntity<String>{
         return ResponseEntity<String>(ex.message, HttpStatus.NOT_FOUND)
     }
+
+    @ExceptionHandler(MissionExsitException::class)
+    fun handler(ex: MissionExsitException): ResponseEntity<String>{
+        return ResponseEntity<String>(ex.message, HttpStatus.CONFLICT)
+    }
 }
