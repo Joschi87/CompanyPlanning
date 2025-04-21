@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.persistence.EntityNotFoundException
 import javax.transaction.Transactional
@@ -17,7 +19,6 @@ import javax.transaction.Transactional
 class service @Autowired constructor(
     var missionRepo: missionRepo,
     var platoonrepo: Platoonrepo){
-
 
     fun getAllMissions(): MutableList<Mission> {
         return missionRepo.findAll()
@@ -38,7 +39,6 @@ class service @Autowired constructor(
                 throw MissionExsitException("Mission with the name: ${model.name} already exsit!")
             }
         }
-
         throw CompanyPlanningException("Something goes wrong")
     }
 
@@ -58,7 +58,6 @@ class service @Autowired constructor(
     @Transactional
     fun updateMission(model: Mission): ResponseEntity<String> {
         val modelFromDatabase = missionRepo.getReferenceById(model.id)
-
         if (model.text != null || model.platoon != null) {
             modelFromDatabase.text = model.text
             modelFromDatabase.platoon = model.platoon
@@ -68,9 +67,7 @@ class service @Autowired constructor(
         }else{
             createNewMission(model)
         }
-
         missionRepo.saveAndFlush(modelFromDatabase)
-
         return ResponseEntity.ok("Mission updated successfully.")
     }
 
@@ -89,6 +86,7 @@ class service @Autowired constructor(
             platoonModel?.missions?.add(missionModel)
             missionModel.activ = true
             missionModel.platoon = platoonModel
+            platoonModel?.timeActiveMission = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
 
             platoonrepo.saveAndFlush(platoonModel?: platoon)
             missionRepo.saveAndFlush(missionModel)
@@ -147,6 +145,7 @@ class service @Autowired constructor(
                 platoon.missions.add(mission)
                 mission.activ = true
                 mission.platoon = platoon
+                platoon.timeActiveMission = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
                 missionRepo.saveAndFlush(mission)
                 platoonrepo.saveAndFlush(platoon)
                 return ResponseEntity<String>("Platoon: ${platoon.platoonname} has the story mission: ${mission.name} as activ mission", HttpStatus.ACCEPTED)

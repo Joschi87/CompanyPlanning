@@ -6,6 +6,7 @@ import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.Id
 import jakarta.persistence.*
+import java.time.LocalDateTime
 
 @Entity
 @Data
@@ -18,4 +19,5 @@ class Platoon {
     lateinit var leader: String
     @OneToMany(mappedBy = "platoon", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var missions: MutableList<Mission> = mutableListOf()
+    lateinit var timeActiveMission: String
 }
