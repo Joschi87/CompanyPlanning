@@ -18,8 +18,8 @@ class Mission {
     var name: String ?= null
     var text: String ?= null
     var finished: Boolean = false
+    var storyMission: Boolean = false
     var activ: Boolean = false
-    var executingPlatoon: Platoon ?= null
 
     @ManyToOne
     @JoinColumn(name = "platoon_id") // FK in der Mission-Tabelle

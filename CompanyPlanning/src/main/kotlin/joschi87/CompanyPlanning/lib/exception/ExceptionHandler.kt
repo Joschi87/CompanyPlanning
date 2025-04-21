@@ -27,4 +27,9 @@ class ExceptionHandler {
     fun handler(ex: MissionExsitException): ResponseEntity<String>{
         return ResponseEntity<String>(ex.message, HttpStatus.CONFLICT)
     }
+
+    @ExceptionHandler(WrongMissionTypeException::class)
+    fun handler(ex: WrongMissionTypeException): ResponseEntity<String>{
+        return ResponseEntity<String>(ex.message, HttpStatus.FORBIDDEN)
+    }
 }
