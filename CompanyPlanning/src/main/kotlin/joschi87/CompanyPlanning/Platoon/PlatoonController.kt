@@ -1,4 +1,4 @@
-package joschi87.CompanyPlanning.platoon
+package joschi87.CompanyPlanning.Platoon
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -13,28 +13,28 @@ import java.util.UUID
 
 @RestController
 @RequestMapping("/platoon")
-class controller @Autowired constructor(var service: service){
+class PlatoonController @Autowired constructor(var platoonService: PlatoonService){
 
     @GetMapping
-    fun getAllPlatoons(): MutableList<model> {
-        return service.getAllPlatoons()
+    fun getAllPlatoons(): MutableList<PlatoonModel> {
+        return platoonService.getAllPlatoons()
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createNewPlatoon(model: model){
-        service.createNewPlatoon(model)
+    fun createNewPlatoon(model: PlatoonModel){
+        platoonService.createNewPlatoon(model)
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletePlatoon(id: UUID){
-        service.deletePlatoon(id)
+        platoonService.deletePlatoon(id)
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    fun updatePlatoon(model: model){
-        service.updatePlatoon(model)
+    fun updatePlatoon(model: PlatoonModel){
+        platoonService.updatePlatoon(model)
     }
 }

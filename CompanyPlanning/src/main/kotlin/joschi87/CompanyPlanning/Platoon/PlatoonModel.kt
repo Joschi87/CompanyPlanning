@@ -1,16 +1,15 @@
 package joschi87.CompanyPlanning.Platoon
 
-import joschi87.CompanyPlanning.missions.Mission
+import joschi87.CompanyPlanning.Missions.MissionModel
 import lombok.Data
 import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.Id
 import jakarta.persistence.*
-import java.time.LocalDateTime
 
 @Entity
 @Data
-class Platoon {
+class PlatoonModel {
 
     @Id
     var id: UUID = UUID.randomUUID()
@@ -18,6 +17,6 @@ class Platoon {
     lateinit var platoonname: String
     lateinit var leader: String
     @OneToMany(mappedBy = "platoon", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    var missions: MutableList<Mission> = mutableListOf()
+    var missionModels: MutableList<MissionModel> = mutableListOf()
     lateinit var timeActiveMission: String
 }

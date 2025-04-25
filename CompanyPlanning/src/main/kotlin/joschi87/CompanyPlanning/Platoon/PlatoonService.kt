@@ -1,20 +1,20 @@
-package joschi87.CompanyPlanning.platoon
+package joschi87.CompanyPlanning.Platoon
 
 import joschi87.CompanyPlanning.lib.exception.LeaderHasPlatoon
 import joschi87.CompanyPlanning.lib.exception.NoItemInDatabaseException
 import joschi87.CompanyPlanning.lib.exception.PlatoonExsitException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import java.util.UUID
 
-@Component
-class service @Autowired constructor(var repo: Platoonrepo){
+@Service
+class PlatoonService @Autowired constructor(var repo: Platoonrepo){
 
-    fun getAllPlatoons(): MutableList<model> {
+    fun getAllPlatoons(): MutableList<PlatoonModel> {
         return repo.findAll()
     }
 
-    fun createNewPlatoon(model: model){
+    fun createNewPlatoon(model: PlatoonModel){
         val platoonExisit = repo.existsByPlatoonname(model.platoonname)
         val leaderHasPlatoon = repo.existsByLeader(model.leader)
         if(!platoonExisit && !leaderHasPlatoon){
@@ -35,7 +35,7 @@ class service @Autowired constructor(var repo: Platoonrepo){
         }
     }
 
-    fun updatePlatoon(model: model){
+    fun updatePlatoon(model: PlatoonModel){
         if (repo.existsById(model.id)) {
             val modelFromDatabase = repo.getReferenceById(model.id)
             modelFromDatabase.leader = model.leader

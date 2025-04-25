@@ -1,16 +1,16 @@
-package joschi87.CompanyPlanning.missions
+package joschi87.CompanyPlanning.Missions
 
 import lombok.Data
 import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.Id
 import jakarta.persistence.*
-import joschi87.CompanyPlanning.Platoon.Platoon
+import joschi87.CompanyPlanning.Platoon.PlatoonModel
 
 
 @Entity
 @Data
-class Mission {
+class MissionModel() {
 
     @Id
     var id: UUID = UUID.randomUUID()
@@ -23,7 +23,6 @@ class Mission {
 
     @ManyToOne
     @JoinColumn(name = "platoon_id") // FK in der Mission-Tabelle
-    var platoon: Platoon? = null
+    var platoonModel: PlatoonModel? = null
 
-    
 }
