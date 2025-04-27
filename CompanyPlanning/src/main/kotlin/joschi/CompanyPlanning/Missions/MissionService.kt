@@ -1,10 +1,12 @@
-package joschi87.CompanyPlanning.Missions
+package joschi.CompanyPlanning.Missions
 
-import joschi87.CompanyPlanning.Platoon.PlatoonModel
-import joschi87.CompanyPlanning.lib.exception.CompanyPlanningException
-import joschi87.CompanyPlanning.lib.exception.MissionExsitException
-import joschi87.CompanyPlanning.lib.exception.WrongMissionTypeException
-import joschi87.CompanyPlanning.Platoon.Platoonrepo
+import jakarta.persistence.EntityNotFoundException
+import jakarta.transaction.Transactional
+import joschi.CompanyPlanning.Platoon.PlatoonModel
+import joschi.CompanyPlanning.lib.exception.CompanyPlanningException
+import joschi.CompanyPlanning.lib.exception.MissionExsitException
+import joschi.CompanyPlanning.lib.exception.WrongMissionTypeException
+import joschi.CompanyPlanning.Platoon.Platoonrepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,8 +14,7 @@ import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import javax.persistence.EntityNotFoundException
-import javax.transaction.Transactional
+
 
 @Service
 class MissionService @Autowired constructor(
@@ -58,9 +59,9 @@ class MissionService @Autowired constructor(
     @Transactional
     fun updateMission(model: MissionModel): ResponseEntity<String> {
         val modelFromDatabase = missionRepo.getReferenceById(model.id)
-        if (model.text != null || model.platoonModel != null) {
+        if (model.text != null || model.platoon != null) {
             modelFromDatabase.text = model.text
-            modelFromDatabase.platoonModel = model.platoonModel
+            modelFromDatabase.platoon = model.platoon
 
             if(model.storyMission)
                 modelFromDatabase.storyMission = true
@@ -77,21 +78,21 @@ class MissionService @Autowired constructor(
 
     @Transactional
     fun setMissionActive(id: UUID, platoon: PlatoonModel): ResponseEntity<String> {
-        if(!checkIfPlatoonInStoryMission(platoon.platoonname))
-            return ResponseEntity<String>("Platoon: ${platoon.platoonname} is currently in a story mission", HttpStatus.CONFLICT)
+        if(!checkIfPlatoonInStoryMission(platoon.name))
+            return ResponseEntity<String>("Platoon: ${platoon.name} is currently in a story mission", HttpStatus.CONFLICT)
         if(missionRepo.existsById(id) && platoonRepo.existsById(platoon.id)){
            val missionModel = missionRepo.getReferenceById(id)
-            val platoonModel = platoonRepo.getReferenceByName(platoon.platoonname)
+            val platoonModel = platoonRepo.getReferenceByName(platoon.name)
 
-            platoonModel?.missionModels?.add(missionModel)
+            platoonModel?.missionModels?.plusElement(missionModel)
             missionModel.activ = true
-            missionModel.platoonModel = platoonModel
+            missionModel.platoon = platoonModel
             platoonModel?.timeActiveMission = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
 
             platoonRepo.saveAndFlush(platoonModel?: platoon)
             missionRepo.saveAndFlush(missionModel)
 
-            return ResponseEntity<String>("Mission: ${missionModel.name} are active for ${platoonModel?.platoonname}", HttpStatus.ACCEPTED)
+            return ResponseEntity<String>("Mission: ${missionModel.name} are active for ${platoonModel?.name}", HttpStatus.ACCEPTED)
         }
         if(!missionRepo.existsById(id))
             throw MissionExsitException("Mission with the ID: $id doesn\'t exsit")
@@ -106,7 +107,7 @@ class MissionService @Autowired constructor(
             val missionModel = missionRepo.getReferenceById(id)
 
             missionModel.activ = false
-            missionModel.platoonModel = null
+            missionModel.platoon = null
 
             if (missionModel.storyMission)
                 missionModel.finished = true
@@ -136,19 +137,19 @@ class MissionService @Autowired constructor(
 
     @Transactional
     fun setStoryMissionActive(id: UUID, platoonModel: PlatoonModel): ResponseEntity<String>{
-        if(!checkIfPlatoonInStoryMission(platoonModel.platoonname))
-            return ResponseEntity<String>("Platoon: ${platoonModel.platoonname} is currently in a story mission", HttpStatus.CONFLICT)
+        if(!checkIfPlatoonInStoryMission(platoonModel.name))
+            return ResponseEntity<String>("Platoon: ${platoonModel.name} is currently in a story mission", HttpStatus.CONFLICT)
         val missionModel: MissionModel
         try {
             missionModel = missionRepo.getReferenceById(id)
             if(missionModel.storyMission){
-                platoonModel.missionModels.add(missionModel)
+                platoonModel.missionModels.plusElement(missionModel)
                 missionModel.activ = true
-                missionModel.platoonModel = platoonModel
+                missionModel.platoon = platoonModel
                 platoonModel.timeActiveMission = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
                 missionRepo.saveAndFlush(missionModel)
                 platoonRepo.saveAndFlush(platoonModel)
-                return ResponseEntity<String>("Platoon: ${platoonModel.platoonname} has the story mission: ${missionModel.name} as activ mission", HttpStatus.ACCEPTED)
+                return ResponseEntity<String>("Platoon: ${platoonModel.name} has the story mission: ${missionModel.name} as activ mission", HttpStatus.ACCEPTED)
             }else{
                 throw WrongMissionTypeException("Mission: ${missionModel.name} are no story mission")
             }

@@ -1,4 +1,4 @@
-package joschi87.CompanyPlanning.Platoon
+package joschi.CompanyPlanning.Platoon
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus

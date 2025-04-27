@@ -1,4 +1,4 @@
-package joschi87.CompanyPlanning.lib.pdf
+/*package joschi87.CompanyPlanning.lib.pdf
 
 import joschi87.CompanyPlanning.Missions.MissionModel
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.multipart.MultipartFile
 import joschi87.CompanyPlanning.Missions.MissionRepo
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
-@Component
+@Service
 class pdfservice @Autowired constructor(
     var repo: MissionRepo
 ){
@@ -65,4 +65,4 @@ class pdfservice @Autowired constructor(
 
         return missionModel
     }
-}
+}*/

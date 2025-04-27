@@ -1,7 +1,7 @@
-package joschi87.CompanyPlanning.Missions
+package joschi.CompanyPlanning.Missions
 
 
-import joschi87.CompanyPlanning.Platoon.PlatoonModel
+import joschi.CompanyPlanning.Platoon.PlatoonModel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping

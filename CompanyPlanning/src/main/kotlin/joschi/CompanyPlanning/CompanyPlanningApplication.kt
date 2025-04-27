@@ -1,4 +1,4 @@
-package joschi87.CompanyPlanning
+package joschi.CompanyPlanning
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -1,8 +1,8 @@
-package joschi87.CompanyPlanning.Platoon
+package joschi.CompanyPlanning.Platoon
 
-import joschi87.CompanyPlanning.lib.exception.LeaderHasPlatoon
-import joschi87.CompanyPlanning.lib.exception.NoItemInDatabaseException
-import joschi87.CompanyPlanning.lib.exception.PlatoonExsitException
+import joschi.CompanyPlanning.lib.exception.LeaderHasPlatoon
+import joschi.CompanyPlanning.lib.exception.NoItemInDatabaseException
+import joschi.CompanyPlanning.lib.exception.PlatoonExsitException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -15,13 +15,13 @@ class PlatoonService @Autowired constructor(var repo: Platoonrepo){
     }
 
     fun createNewPlatoon(model: PlatoonModel){
-        val platoonExisit = repo.existsByPlatoonname(model.platoonname)
+        val platoonExisit = repo.existsByName(model.name)
         val leaderHasPlatoon = repo.existsByLeader(model.leader)
         if(!platoonExisit && !leaderHasPlatoon){
             repo.saveAndFlush(model)
         }else{
             if(platoonExisit)
-                throw PlatoonExsitException("The Platoon with the name: ${model.platoonname} exsist")
+                throw PlatoonExsitException("The Platoon with the name: ${model.name} exsist")
             if(leaderHasPlatoon)
                 throw LeaderHasPlatoon("${model.leader} has already been assigned a platoon")
         }
@@ -39,10 +39,10 @@ class PlatoonService @Autowired constructor(var repo: Platoonrepo){
         if (repo.existsById(model.id)) {
             val modelFromDatabase = repo.getReferenceById(model.id)
             modelFromDatabase.leader = model.leader
-            modelFromDatabase.platoonname = model.platoonname
+            modelFromDatabase.name = model.name
             repo.saveAndFlush(modelFromDatabase)
         }else{
-            throw NoItemInDatabaseException("Platoon ${model.platoonname} with ID (${model.id}) dosen\'t exsist")
+            throw NoItemInDatabaseException("Platoon ${model.name} with ID (${model.id}) dosen\'t exsist")
         }
     }
 }

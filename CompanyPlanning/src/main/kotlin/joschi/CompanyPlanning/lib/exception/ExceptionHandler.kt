@@ -1,4 +1,4 @@
-package joschi87.CompanyPlanning.lib.exception
+package joschi.CompanyPlanning.lib.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
