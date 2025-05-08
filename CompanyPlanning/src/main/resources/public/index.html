@@ -3,42 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Company Planning</title>
-    <script src="js/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-    <link href="open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./lib/bootstrap.min.css">
+    <link rel="stylesheet" href="./lib/font-awesome.min.css">
+    <link rel="stylesheet" href="./lib/app-style.css">
+    <link rel="stylesheet" href="./lib/google-fonts.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top" id="navbar">
-        <a class="navbar-brand" href="#">Company Planing</a>
+        <a class="navbar-brand app-title" href="#">Company Planing</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+                <li class="nav-item app">
+                    <a class="nav-link" href="#" data-target="#platoon" data-toggle="modal">Z&uuml;ge</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        About
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                <li class="nav-item app">
+                    <a class="nav-link" href="#" data-target="#mission" data-toggle="modal">Missionen</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="container">
+    <main class="flex-fill bg-soft-dark text-white py-5">
 
-    </div>
+    </main>
+    <footer>
+        <div class="app app-footer bg-dark text-white text-center py-4 mt-auto">
+            <div class="container">
+                <p class="mb-1">2025 Company Planing. Alle Rechte vorbehalten.</p>
+                <!--<div>
+                    <a href="#" class="text-info text-decoration-none mx-2">Impressum</a>
+                    <a href="#" class="text-info text-decoration-none mx-2">Datenschutz</a>
+                    <a href="#" class="text-info text-decoration-none mx-2">Kontakt</a>
+                </div>-->
+                <div class=""></div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
