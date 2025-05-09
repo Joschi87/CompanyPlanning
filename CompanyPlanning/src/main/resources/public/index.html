@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Company Planning</title>
+    <!-- standard functions for bootstrap and other libs -->
     <script src="./js/popper.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./lib/bootstrap.min.css">
@@ -10,6 +11,8 @@
     <link rel="stylesheet" href="./lib/app-style.css">
     <link rel="stylesheet" href="./lib/google-fonts.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- load intern js function -->
+    <script src="js/app/app.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top" id="navbar">
@@ -29,20 +32,31 @@
         </div>
     </nav>
     <main class="flex-fill bg-soft-dark text-white py-5">
-
+        <div id="platoon-cards"></div>
     </main>
     <footer>
         <div class="app app-footer bg-dark text-white text-center py-4 mt-auto">
             <div class="container">
                 <p class="mb-1">2025 Company Planing. Alle Rechte vorbehalten.</p>
-                <!--<div>
-                    <a href="#" class="text-info text-decoration-none mx-2">Impressum</a>
-                    <a href="#" class="text-info text-decoration-none mx-2">Datenschutz</a>
-                    <a href="#" class="text-info text-decoration-none mx-2">Kontakt</a>
-                </div>-->
                 <div class=""></div>
             </div>
         </div>
     </footer>
+    <!-- Load functions for the first view -->
+    <span onload="getAllPlatoonsForMainSite()"></span>
+
+    <!-- Bootstrap Modals -->
+    <!-- Error modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel">Fehler</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+                </div>
+                <div class="modal-body" id="errorModalBody"></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

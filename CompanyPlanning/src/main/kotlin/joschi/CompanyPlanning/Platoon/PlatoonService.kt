@@ -11,7 +11,8 @@ import java.util.UUID
 class PlatoonService @Autowired constructor(var repo: Platoonrepo){
 
     fun getAllPlatoons(): MutableList<PlatoonModel> {
-        return repo.findAll()
+        return repo.findAll().takeIf { it.isNotEmpty() }
+            ?: throw NoItemInDatabaseException("No Platoons are created")
     }
 
     fun createNewPlatoon(model: PlatoonModel){
