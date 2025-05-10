@@ -1,5 +1,6 @@
 package joschi.CompanyPlanning.Platoon
 
+import joschi.CompanyPlanning.lib.appLogger
 import joschi.CompanyPlanning.lib.exception.LeaderHasPlatoon
 import joschi.CompanyPlanning.lib.exception.NoItemInDatabaseException
 import joschi.CompanyPlanning.lib.exception.PlatoonExsitException
@@ -10,6 +11,8 @@ import java.util.UUID
 @Service
 class PlatoonService @Autowired constructor(var repo: Platoonrepo){
 
+    private val log = appLogger(this::class.java)
+
     fun getAllPlatoons(): MutableList<PlatoonModel> {
         return repo.findAll().takeIf { it.isNotEmpty() }
             ?: throw NoItemInDatabaseException("No Platoons are created")
@@ -19,6 +22,7 @@ class PlatoonService @Autowired constructor(var repo: Platoonrepo){
         val platoonExisit = repo.existsByName(model.name)
         val leaderHasPlatoon = repo.existsByLeader(model.leader)
         if(!platoonExisit && !leaderHasPlatoon){
+            log.info("Create Platoon: ${model}")
             repo.saveAndFlush(model)
         }else{
             if(platoonExisit)

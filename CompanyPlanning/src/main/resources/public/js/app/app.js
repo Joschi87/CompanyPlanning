@@ -1,12 +1,10 @@
 function getAllPlatoonsForMainSite(){
-    fetch('/platoon/summary')
+    fetch('/platoon')
         .then(async res => {
             if (!res.ok) {
                 const errorText = await res.text();
-                if (res.status === 404) {
-                    document.getElementById('errorModalBody').textContent = errorText;
-                    new bootstrap.Modal(document.getElementById('errorModal')).show();
-                }
+                document.getElementById('errorModalBody').textContent = res.status + ": " + errorText;
+                new bootstrap.Modal(document.getElementById('errorModal')).show();
                 throw new Error(`HTTP ${res.status}: ${errorText}`);
             }
             return res.json();
@@ -26,4 +24,18 @@ function getAllPlatoonsForMainSite(){
       `).join('');
         })
         .catch(err => console.error("Fehler beim Laden der Züge:", err));
+}
+
+function getRequestWithErrorModal(link){
+    fetch(link)
+        .then(async res => {
+            if (!res.ok) {
+                const errorText = await res.text();
+                document.getElementById('errorModalBody').textContent = res.status + ": " + errorText;
+                new bootstrap.Modal(document.getElementById('errorModal')).show();
+                throw new Error(`HTTP ${res.status}: ${errorText}`);
+            }
+            return res.json();
+        })
+    .then(data => {return data})
 }

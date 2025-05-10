@@ -43,7 +43,10 @@
         </div>
     </footer>
     <!-- Load functions for the first view -->
-    <span onload="getAllPlatoonsForMainSite()"></span>
+    <script>window.onload = function(){
+        getAllPlatoonsForMainSite();
+        console.log(getRequestWithErrorModal("/platoon"))
+    }</script>
 
     <!-- Bootstrap Modals -->
     <!-- Error modal -->
