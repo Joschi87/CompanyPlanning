@@ -8,7 +8,7 @@ import java.util.UUID
 @Repository
 interface Platoonrepo : JpaRepository<PlatoonModel, UUID> {
 
-    fun existsByName(name: String): Boolean
+    fun existsByPlatoonname(name: String): Boolean
     fun existsByLeader(leader: String): Boolean
-    fun getReferenceByName(name: String): PlatoonModel?
+    fun getReferenceByPlatoonname(name: String): PlatoonModel?
 }

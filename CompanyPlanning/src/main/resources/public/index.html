@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Company Planning</title>
@@ -17,22 +17,22 @@
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top" id="navbar">
         <a class="navbar-brand app-title" href="#">Company Planing</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item app">
-                    <a class="nav-link" href="#" data-target="#platoon" data-toggle="modal">Z&uuml;ge</a>
+                    <button class="btn btn-primary" data-bs-target="#platoon" data-bs-toggle="modal">Z&uuml;ge</button>
                 </li>
                 <li class="nav-item app">
-                    <a class="nav-link" href="#" data-target="#mission" data-toggle="modal">Missionen</a>
+                    <a class="nav-link" data-target="#mission" data-toggle="modal">Missionen</a>
                 </li>
             </ul>
         </div>
     </nav>
     <main class="flex-fill bg-soft-dark text-white py-5">
-        <div id="platoon-cards"></div>
+        <div id="platoon-cards" class="app-mainsite"></div>
     </main>
     <footer>
         <div class="app app-footer bg-dark text-white text-center py-4 mt-auto">
@@ -45,7 +45,6 @@
     <!-- Load functions for the first view -->
     <script>window.onload = function(){
         getAllPlatoonsForMainSite();
-        console.log(getRequestWithErrorModal("/platoon"))
     }</script>
 
     <!-- Bootstrap Modals -->
@@ -58,6 +57,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
                 </div>
                 <div class="modal-body" id="errorModalBody"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="platoon" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog app-platoon-modal custom-width">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel">Platoon</h5>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Schließen">X</button>
+                </div>
+                <div class="modal-body" id="successModalBody">
+                    <div class="app-platoon-modal-header">
+                        <button type="button" class="btn btn-success app app-new-data-modal sticky-top" data-target="#newPlatoonModal" data-toggle="modal">Neuen Zug erstellen</button>
+                        <button type="button" class="btn btn-warning app app-update-data sticky-top" data-bs-target="#updatePlatoonModal" data-bs-toggle="modal">Update Zug</button>
+                        <button type="button" class="btn btn-danger app app-delete-checked-data sticky-top" onclick="">Auswahl löschen</button>
+                    </div>
+                    <
+                </div>
             </div>
         </div>
     </div>

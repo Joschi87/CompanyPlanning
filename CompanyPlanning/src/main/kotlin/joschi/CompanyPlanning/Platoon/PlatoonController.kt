@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
@@ -22,7 +23,7 @@ class PlatoonController @Autowired constructor(var platoonService: PlatoonServic
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createNewPlatoon(model: PlatoonModel){
+    fun createNewPlatoon(@RequestBody model: PlatoonModel){
         platoonService.createNewPlatoon(model)
     }
 

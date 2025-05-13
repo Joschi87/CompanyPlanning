@@ -19,14 +19,14 @@ class PlatoonService @Autowired constructor(var repo: Platoonrepo){
     }
 
     fun createNewPlatoon(model: PlatoonModel){
-        val platoonExisit = repo.existsByName(model.name)
+        val platoonExisit = repo.existsByPlatoonname(model.platoonname)
         val leaderHasPlatoon = repo.existsByLeader(model.leader)
         if(!platoonExisit && !leaderHasPlatoon){
-            log.info("Create Platoon: ${model}")
+            log.info("Create Platoon: ${model.platoonname} ${model.leader}")
             repo.saveAndFlush(model)
         }else{
             if(platoonExisit)
-                throw PlatoonExsitException("The Platoon with the name: ${model.name} exsist")
+                throw PlatoonExsitException("The Platoon with the name: ${model.platoonname} exsist")
             if(leaderHasPlatoon)
                 throw LeaderHasPlatoon("${model.leader} has already been assigned a platoon")
         }
@@ -44,10 +44,10 @@ class PlatoonService @Autowired constructor(var repo: Platoonrepo){
         if (repo.existsById(model.id)) {
             val modelFromDatabase = repo.getReferenceById(model.id)
             modelFromDatabase.leader = model.leader
-            modelFromDatabase.name = model.name
+            modelFromDatabase.platoonname = model.platoonname
             repo.saveAndFlush(modelFromDatabase)
         }else{
-            throw NoItemInDatabaseException("Platoon ${model.name} with ID (${model.id}) dosen\'t exsist")
+            throw NoItemInDatabaseException("Platoon ${model.platoonname} with ID (${model.id}) dosen\'t exsist")
         }
     }
 }

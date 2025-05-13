@@ -9,6 +9,22 @@
     font-family: "Audiowide", sans-serif;
 }
 
+.app-mainsite{
+    margin-top: 2%;
+}
+
 .bg-soft-dark{
      background-color: #4a4f54;
+}
+
+.card-body{
+    color: black;
+}
+
+.app-platoon-modal-header{
+    z-index: 1055;
+}
+
+.app-platoon-modal{
+    max-width: 90%;
 }

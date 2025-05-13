@@ -11,7 +11,7 @@ class PlatoonModel() {
     @Id
     var id: UUID = UUID.randomUUID()
 
-    var name: String = ""
+    var platoonname: String = ""
     var leader: String = ""
     @OneToMany(mappedBy = "platoon", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var missionModels: List<MissionModel> = mutableListOf()
