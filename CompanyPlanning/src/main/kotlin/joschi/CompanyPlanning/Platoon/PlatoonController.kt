@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -37,5 +38,11 @@ class PlatoonController @Autowired constructor(var platoonService: PlatoonServic
     @ResponseStatus(HttpStatus.ACCEPTED)
     fun updatePlatoon(model: PlatoonModel){
         platoonService.updatePlatoon(model)
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun getPlatoon(@PathVariable id: UUID): PlatoonModel{
+        return platoonService.getPlatoon(id)
     }
 }

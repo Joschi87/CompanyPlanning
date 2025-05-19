@@ -23,10 +23,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item app">
-                    <button class="btn btn-primary" data-bs-target="#platoon" data-bs-toggle="modal">Z&uuml;ge</button>
+                    <button class="btn btn-primary" data-bs-target="#platoon" data-bs-toggle="modal" onclick="loadAllPlatoonsForModalList()">Z&uuml;ge</button>
                 </li>
                 <li class="nav-item app">
-                    <a class="nav-link" data-target="#mission" data-toggle="modal">Missionen</a>
+                    <a class="nav-link" data-bs-target="#mission" data-bs-toggle="modal">Missionen</a>
                 </li>
             </ul>
         </div>
@@ -60,20 +60,53 @@
             </div>
         </div>
     </div>
+    <!-- Modal for list all platoons -->
     <div class="modal fade" id="platoon" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog app-platoon-modal custom-width">
+        <div class="modal-dialog app-modal custom-width">
             <div class="modal-content">
-                <div class="modal-header bg-success text-white">
+                <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="successModalLabel">Platoon</h5>
                     <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Schließen">X</button>
                 </div>
                 <div class="modal-body" id="successModalBody">
                     <div class="app-platoon-modal-header">
-                        <button type="button" class="btn btn-success app app-new-data-modal sticky-top" data-target="#newPlatoonModal" data-toggle="modal">Neuen Zug erstellen</button>
+                        <button type="button" class="btn btn-success app app-new-data-modal sticky-top" data-bs-target="#newPlatoonModal" data-bs-toggle="modal">Neuen Zug erstellen</button>
                         <button type="button" class="btn btn-warning app app-update-data sticky-top" data-bs-target="#updatePlatoonModal" data-bs-toggle="modal">Update Zug</button>
                         <button type="button" class="btn btn-danger app app-delete-checked-data sticky-top" onclick="">Auswahl löschen</button>
                     </div>
-                    <
+                    <div class="app-platoon-modal-body" >
+                        <div id="listOfPlatoons"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for single Platoon activated from modal list all platoons -->
+    <div class="modal fade" id="modalForPlatoon" tabindex="-1" aria-labelledby="showSinglePlatoonLabel" aria-hidden="true">
+        <div class="modal-dialog app-modal custom-width">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="showSinglePlatoonLabel"></h5>
+                </div>
+                <div class="modal-body" id="showSinglePlatoonBody"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="mission" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog app-modal custom-width">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="missionLabel">Missions</h5>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Schließen">X</button>
+                </div>
+                <div class="modal-body" id="missionBody">
+                    <div class="app-mission-modal-header">
+                        <button type="button" class="btn btn-success app app-new-data-modal sticky-top" data-bs-target="#newMissionModal" data-bs-toggle="modal">Neue Mission erstellen</button>
+                        <button type="button" class="btn btn-warning app app-update-data sticky-top" data-bs-target="#updateMissionModal" data-bs-toggle="modal">Update Mission</button>
+                        <button type="button" class="btn btn-danger app app-delete-checked-data sticky-top" onclick="">Auswahl löschen</button>
+                        <button type="button" class="btn btn-primary app sticky-top" data-bs-target="#pdfUploadModal" data-bs-toggle="modal">Missions PDF Import</button>
+                        <button type="button" class="btn btn-primary app sticky-top" data-bs-target="#pdfExportModal" data-bs-toggle="modal">Missions PDF Export</button>
+                    </div>
                 </div>
             </div>
         </div>

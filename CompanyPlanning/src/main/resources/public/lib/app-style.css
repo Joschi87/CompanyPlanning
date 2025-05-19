@@ -25,6 +25,10 @@
     z-index: 1055;
 }
 
-.app-platoon-modal{
+.app-modal{
     max-width: 90%;
+}
+
+.app-platoon-modal-body{
+    margin-top: 5%;
 }

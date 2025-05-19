@@ -50,4 +50,11 @@ class PlatoonService @Autowired constructor(var repo: Platoonrepo){
             throw NoItemInDatabaseException("Platoon ${model.platoonname} with ID (${model.id}) dosen\'t exsist")
         }
     }
+
+    fun getPlatoon(id: UUID): PlatoonModel{
+       if (repo.existsById(id)){
+           return repo.getReferenceById(id)
+       }else
+           throw NoItemInDatabaseException("Platoon with ID: ${id} dosen\'t exsist")
+    }
 }
