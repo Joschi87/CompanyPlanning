@@ -40,9 +40,9 @@ class PlatoonController @Autowired constructor(var platoonService: PlatoonServic
         platoonService.updatePlatoon(model)
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{name}")
     @ResponseStatus(HttpStatus.OK)
-    fun getPlatoon(@PathVariable id: UUID): PlatoonModel{
-        return platoonService.getPlatoon(id)
+    fun getPlatoon(@PathVariable name: String): PlatoonModel{
+        return platoonService.getPlatoon(name)
     }
 }

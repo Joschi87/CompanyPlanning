@@ -51,10 +51,10 @@ class PlatoonService @Autowired constructor(var repo: Platoonrepo){
         }
     }
 
-    fun getPlatoon(id: UUID): PlatoonModel{
-       if (repo.existsById(id)){
-           return repo.getReferenceById(id)
+    fun getPlatoon(name: String): PlatoonModel{
+       if (repo.existsByPlatoonname(name)){
+           return repo.getReferenceByPlatoonname(name)
        }else
-           throw NoItemInDatabaseException("Platoon with ID: ${id} dosen\'t exsist")
+           throw NoItemInDatabaseException("Platoon with Name: ${name} dosen\'t exsist")
     }
 }

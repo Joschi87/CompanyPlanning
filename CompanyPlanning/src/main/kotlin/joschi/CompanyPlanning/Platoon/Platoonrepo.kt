@@ -10,5 +10,5 @@ interface Platoonrepo : JpaRepository<PlatoonModel, UUID> {
 
     fun existsByPlatoonname(name: String): Boolean
     fun existsByLeader(leader: String): Boolean
-    fun getReferenceByPlatoonname(name: String): PlatoonModel?
+    fun getReferenceByPlatoonname(name: String): PlatoonModel
 }
