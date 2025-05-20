@@ -13,7 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- load intern js function -->
     <script src="js/app/app.js"></script>
-    <script src="js/app/loadSinglePlatoon.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top" id="navbar">
@@ -61,19 +60,29 @@
             </div>
         </div>
     </div>
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="successModalLabel">Fehler</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+                </div>
+                <div class="modal-body" id="successModalBody"></div>
+            </div>
+        </div>
+    </div>
     <!-- Modal for list all platoons -->
     <div class="modal fade" id="platoon" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog app-modal custom-width">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="successModalLabel">Platoon</h5>
+                    <h5 class="modal-title" id="platoonModalLabel">Platoon</h5>
                     <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Schließen">X</button>
                 </div>
-                <div class="modal-body" id="successModalBody">
+                <div class="modal-body" id="platoonModalBody">
                     <div class="app-platoon-modal-header">
                         <button type="button" class="btn btn-success app app-new-data-modal sticky-top" data-bs-target="#newPlatoonModal" data-bs-toggle="modal">Neuen Zug erstellen</button>
-                        <button type="button" class="btn btn-warning app app-update-data sticky-top" data-bs-target="#updatePlatoonModal" data-bs-toggle="modal">Update Zug</button>
-                        <button type="button" class="btn btn-danger app app-delete-checked-data sticky-top" onclick="">Auswahl löschen</button>
                     </div>
                     <div class="app-platoon-modal-body" >
                         <div id="listOfPlatoons"></div>

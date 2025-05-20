@@ -28,15 +28,15 @@ class PlatoonController @Autowired constructor(var platoonService: PlatoonServic
         platoonService.createNewPlatoon(model)
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deletePlatoon(id: UUID){
+    fun deletePlatoon(@PathVariable id: UUID){
         platoonService.deletePlatoon(id)
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    fun updatePlatoon(model: PlatoonModel){
+    fun updatePlatoon(@RequestBody model: PlatoonModel){
         platoonService.updatePlatoon(model)
     }
 

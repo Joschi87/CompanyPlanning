@@ -38,35 +38,50 @@ function loadAllPlatoonsForModalList(){
             return res.json();
         })
         .then(data => {
-
-
-
-            document.getElementById('listOfPlatoons').innerHTML = ` <ul class="list-group">
-                ${data.map(p => `
-                    <li class="list-group-item">
-                        <input class="form-check-input" type="checkbox" value="" id="${p.id}" />
-                        <label class="form-check-label" for="${p.id}">${p.platoonname}</label>
-                        <button class="btn btn-outline-primary ms-auto" data-bs-target="#modalForPlatoon${p.platoonname}" data-bs-toggle="modal" >Mehr Anzeigen</button>
-                        
-                         <div class="modal fade" id="modalForPlatoon${p.platoonname}" tabindex="-1" aria-labelledby="showSinglePlatoonLabel" aria-hidden="true">
-                            <div class="modal-dialog app-modal custom-width">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-success text-white">
-                                        <h5 class="modal-title" id="showSinglePlatoonLabel"></h5>
-                                    </div>
-                                    <div class="modal-body" id="showSinglePlatoonBody">
-                                        <p><strong>Führer:</strong> ${data.leader}</p>
-                                        <p><strong>Einsatzzeit:</strong> ${data.timeActiveMission}</p>
-                                        <p><strong>Missionen:</strong></p>
-                                        <ul>${missions}</ul>
-                                    </div>
-                                </div>
+            document.getElementById('listOfPlatoons').innerHTML = `<ul class="list-group">
+                ${data.map(entry => {
+                const safeId = `platoon-${entry.id}`; // sichere ID ohne Leerzeichen
+                return `
+                    <li class="list-group-item d-flex flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div>
+                                <!-- <input class="form-check-input me-2" type="checkbox" id="${safeId}-checkbox" /> -->
+                                <label class="form-check-label" for="${safeId}-checkbox">${entry.platoonname}</label>
                             </div>
-                         </div>
-                    </li>
-            `
-        ).join('')} </ul>`;
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#${safeId}-collapse" aria-expanded="false" aria-controls="${safeId}-collapse">Mehr anzeigen</button>
+                        </div>
+                        <div class="collapse mt-2 w-100" id="${safeId}-collapse">
+                            <div class="card card-body">
+                                <strong>ID:</strong> <input type="text" value="${entry.id}" disabled/><br>
+                                <strong>Name:</strong> <input type="text" value="${entry.platoonname}" id="update-name-'${entry.id}'" required/><br>
+                                <strong>Zugf&uuml;hrer:</strong> <input type="text" value="${entry.leader}" id="update-leader-'${entry.id}'" required/></br>
+                                <strong>Mission aktiv seit:</strong> ${entry.timeActiveMission || 'Keine aktive Mission'}
+                                <strong>Aktive Mission:</strong> ${entry.activeMission || 'Keine aktive Mission'}
+                            </div>
+                            <br>
+                            <button class=" btn btn-warning app app-update-data" data-bs-toggle="modal" data-bs-target="#${safeId}-update" onclick="updatePlatoon('${entry.id}', '${entry.platoonname}', '${entry.leader}')">Update ${entry.platoonname}</button>
+                        </div>
+                    </li>`;
+            }).join('')}
+            </ul>`;
         })
         .catch(err => console.error("Fehler beim Laden der Züge:", err));
 }
 
+function updatePlatoon(uuid, platoonname, leader){
+    fetch('/platoon',{
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            platoonname: platoonname,
+            leader: leader,
+        })
+    })
+    .then(res => res.ok ? res.json() : Promise.reject(`HTTP ${res.status}: ${res.statusText}`))
+    .then(data => {
+        document.getElementById('successModalBody').textContent = res.status + ": " + errorText;
+        new bootstrap.Modal(document.getElementById('successModal')).show();
+    })
+}
