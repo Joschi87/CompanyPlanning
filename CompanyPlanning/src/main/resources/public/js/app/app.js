@@ -59,7 +59,7 @@ function loadAllPlatoonsForModalList(){
                                 <strong>Aktive Mission:</strong> ${entry.activeMission || 'Keine aktive Mission'}
                             </div>
                             <br>
-                            <button class=" btn btn-warning app app-update-data" data-bs-toggle="modal" data-bs-target="#${safeId}-update" onclick="updatePlatoon('${entry.id}', '${entry.platoonname}', '${entry.leader}')">Update ${entry.platoonname}</button>
+                            <button class=" btn btn-warning app app-update-data" data-bs-toggle="modal" data-bs-target="#${safeId}-update" onclick="updatePlatoon('${entry.id}', , '${entry.leader}')">Update ${entry.platoonname}</button>
                         </div>
                     </li>`;
             }).join('')}
@@ -69,6 +69,7 @@ function loadAllPlatoonsForModalList(){
 }
 
 function updatePlatoon(uuid, platoonname, leader){
+    console.log(platoonname, leader, uuid)
     fetch('/platoon',{
         method: 'PUT',
         headers: {
@@ -81,7 +82,7 @@ function updatePlatoon(uuid, platoonname, leader){
     })
     .then(res => res.ok ? res.json() : Promise.reject(`HTTP ${res.status}: ${res.statusText}`))
     .then(data => {
-        document.getElementById('successModalBody').textContent = res.status + ": " + errorText;
+        document.getElementById('successModalBody').textContent = res.status + ": " + res.text;
         new bootstrap.Modal(document.getElementById('successModal')).show();
     })
 }
