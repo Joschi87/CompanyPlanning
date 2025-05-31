@@ -40,7 +40,7 @@ function loadAllPlatoonsForModalList(){
         .then(data => {
             document.getElementById('listOfPlatoons').innerHTML = `<ul class="list-group">
                 ${data.map(entry => {
-                const safeId = `platoon-${entry.id}`; // sichere ID ohne Leerzeichen
+                const safeId = `platoon-${entry.id}`;// sichere ID ohne Leerzeichen
                 return `
                     <li class="list-group-item d-flex flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between align-items-center">
@@ -53,13 +53,13 @@ function loadAllPlatoonsForModalList(){
                         <div class="collapse mt-2 w-100" id="${safeId}-collapse">
                             <div class="card card-body">
                                 <strong>ID:</strong> <input type="text" value="${entry.id}" disabled/><br>
-                                <strong>Name:</strong> <input type="text" value="${entry.platoonname}" id="update-name-'${entry.id}'" required/><br>
-                                <strong>Zugf&uuml;hrer:</strong> <input type="text" value="${entry.leader}" id="update-leader-'${entry.id}'" required/></br>
+                                <strong>Name:</strong> <input type="text" value="${entry.platoonname}" id="update-name-${safeId}" required/><br>
+                                <strong>Zugf&uuml;hrer:</strong> <input type="text" value="${entry.leader}" id="update-leader-${safeId}" required/></br>
                                 <strong>Mission aktiv seit:</strong> ${entry.timeActiveMission || 'Keine aktive Mission'}
                                 <strong>Aktive Mission:</strong> ${entry.activeMission || 'Keine aktive Mission'}
                             </div>
                             <br>
-                            <button class=" btn btn-warning app app-update-data" data-bs-toggle="modal" data-bs-target="#${safeId}-update" onclick="updatePlatoon('${entry.id}', , '${entry.leader}')">Update ${entry.platoonname}</button>
+                            <button class=" btn btn-warning app app-update-data" id="update-button" data-bs-toggle="modal" data-bs-target="#${safeId}-update" onclick="updatePlatoon('${safeId}', '${entry.id}')">Update ${entry.platoonname}</button>
                         </div>
                     </li>`;
             }).join('')}
@@ -68,21 +68,31 @@ function loadAllPlatoonsForModalList(){
         .catch(err => console.error("Fehler beim Laden der Züge:", err));
 }
 
-function updatePlatoon(uuid, platoonname, leader){
-    console.log(platoonname, leader, uuid)
+function updatePlatoon(safeID, uuid){
+    const idPlatoonname = "update-name-" + safeID;
+    const idLeader = "update-leader-" + safeID;
     fetch('/platoon',{
         method: 'PUT',
         headers: {
-            'Accept': 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            platoonname: platoonname,
-            leader: leader,
+            id: uuid,
+            platoonname: document.getElementById(idPlatoonname).value,
+            leader: document.getElementById(idLeader).value
         })
     })
-    .then(res => res.ok ? res.json() : Promise.reject(`HTTP ${res.status}: ${res.statusText}`))
-    .then(data => {
-        document.getElementById('successModalBody').textContent = res.status + ": " + res.text;
-        new bootstrap.Modal(document.getElementById('successModal')).show();
-    })
+        .then(res => {
+            if (res.status === 202) {
+                document.getElementById('successModalBody').textContent = "Zug: " + document.getElementById(idPlatoonname).value + ", wurde erfolgreich aktualisiert.";
+                new bootstrap.Modal(document.getElementById('successModal')).show();
+            }else{
+                document.getElementById('errorModalBody').textContent = "Responsecode: " + res.status `<br/>` + "Fehlermeldung: " + res.text();
+                new bootstrap.Modal(document.getElementById('errorModal')).show();
+            }
+        })
+}
+
+function reloadPage() {
+    location.reload();
 }
