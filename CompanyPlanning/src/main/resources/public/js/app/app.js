@@ -59,7 +59,8 @@ function loadAllPlatoonsForModalList(){
                                 <strong>Aktive Mission:</strong> ${entry.activeMission || 'Keine aktive Mission'}
                             </div>
                             <br>
-                            <button class=" btn btn-warning app app-update-data" id="update-button" data-bs-toggle="modal" data-bs-target="#${safeId}-update" onclick="updatePlatoon('${safeId}', '${entry.id}')">Update ${entry.platoonname}</button>
+                            <button class=" btn btn-warning app app-update-data" id="update-button" onclick="updatePlatoon('${safeId}', '${entry.id}')">Update ${entry.platoonname}</button>
+                            <button class="btn btn-danger app" onclick="deletePlatoon('${entry.id}')">L&ouml;schen</button>
                         </div>
                     </li>`;
             }).join('')}
@@ -91,6 +92,46 @@ function updatePlatoon(safeID, uuid){
                 new bootstrap.Modal(document.getElementById('errorModal')).show();
             }
         })
+}
+
+function createPlatoon(){
+    fetch('/platoon',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            platoonname: document.getElementById("platoon-name").value,
+            leader: document.getElementById("platoon-leader").value,
+        })
+    })
+    .then(async res => {
+        if (res.status === 201) {
+            document.getElementById('successModalBody').textContent = "Der Zug: " + document.getElementById("platoon-name").value + ", wurde erfolgreich angelegt. Zugf&uuml;hrer ist: " + document.getElementById("platoon-leader").value;
+            new bootstrap.Modal(document.getElementById('successModal')).show();
+        }else{
+            document.getElementById('errorModalBody').textContent = "Responsecode: " + res.status `<br/>` + "Fehlermeldung: " + res.text();
+            new bootstrap.Modal(document.getElementById('errorModal')).show();
+        }
+    })
+}
+
+function deletePlatoon(id){
+    fetch('/platoon/' + id,{
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(async res => {
+        if (res.status === 204) {
+            document.getElementById('successModalBody').textContent = "Der Zug wurde erfolgreich gelöscht!";
+            new bootstrap.Modal(document.getElementById('successModal')).show();
+        }else{
+            document.getElementById('errorModalBody').textContent = "Responsecode: " + res.status `<br/>` + "Fehlermeldung: " + res.text();
+            new bootstrap.Modal(document.getElementById('errorModal')).show();
+        }
+    })
 }
 
 function reloadPage() {

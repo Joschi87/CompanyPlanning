@@ -99,12 +99,37 @@
                     <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Schließen">X</button>
                 </div>
                 <div class="modal-body" id="missionBody">
-                    <div class="app-mission-modal-header">
+                    <div class="app-mission-modal-body">
                         <button type="button" class="btn btn-success app app-new-data-modal sticky-top" data-bs-target="#newMissionModal" data-bs-toggle="modal">Neue Mission erstellen</button>
                         <button type="button" class="btn btn-warning app app-update-data sticky-top" data-bs-target="#updateMissionModal" data-bs-toggle="modal">Update Mission</button>
                         <button type="button" class="btn btn-danger app app-delete-checked-data sticky-top" onclick="">Auswahl löschen</button>
                         <button type="button" class="btn btn-primary app sticky-top" data-bs-target="#pdfUploadModal" data-bs-toggle="modal">Missions PDF Import</button>
                         <button type="button" class="btn btn-primary app sticky-top" data-bs-target="#pdfExportModal" data-bs-toggle="modal">Missions PDF Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="newPlatoonModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog app-modal custom-width">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="newPlatoonModalLabel">Neuen Zug erstellen</h5>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Schließen">X</button>
+                </div>
+                <div class="modal-body" id="newPlatoonModalBody">
+                    <div class="app-platoon-modal-body">
+                        <div class="mb-3">
+                            <label for="platoon" class="form-label">Name des Zuges:</label>
+                            <input type="text" class="form-text" id="platoon-name" placeholder="Name des Zuges" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Zugf&uuml;hrer:</label>
+                            <input type="text" class="form-text" id="platoon-leader" placeholder="Zugf&uuml;hrer" />
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-success" onclick="createPlatoon()">Speichern</button>
+                        </div>
                     </div>
                 </div>
             </div>
