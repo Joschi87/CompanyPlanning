@@ -26,7 +26,7 @@
                     <button class="btn btn-primary" data-bs-target="#platoon" data-bs-toggle="modal" onclick="loadAllPlatoonsForModalList()">Z&uuml;ge</button>
                 </li>
                 <li class="nav-item app">
-                    <a class="nav-link" data-bs-target="#mission" data-bs-toggle="modal">Missionen</a>
+                    <button class="btn btn-primary" data-bs-target="#mission" data-bs-toggle="modal" onclick="loadAllMissionsForModalList()">Mission</button>
                 </li>
             </ul>
         </div>
@@ -54,7 +54,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title" id="errorModalLabel">Fehler</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()">X</button>
                 </div>
                 <div class="modal-body" id="errorModalBody"></div>
             </div>
@@ -66,7 +66,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
                     <h5 class="modal-title" id="successModalLabel">Erfolg</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()">X</button>
                 </div>
                 <div class="modal-body" id="successModalBody"></div>
             </div>
@@ -119,16 +119,18 @@
                 </div>
                 <div class="modal-body" id="newPlatoonModalBody">
                     <div class="app-platoon-modal-body">
-                        <div class="mb-3">
-                            <label for="platoon" class="form-label">Name des Zuges:</label>
-                            <input type="text" class="form-text" id="platoon-name" placeholder="Name des Zuges" />
+                        <div class="mb-lg-5">
+                            <label for="platoon" class="form-label"><strong>Name des Zuges:</strong></label><br>
+                            <input type="text" class="app-input-text" id="platoon-name" placeholder="Name des Zuges" />
+                        </div>
+                        <br/>
+                        <div class="mb-lg-5">
+                            <label class="form-label"><strong>Zugf&uuml;hrer:</strong></label><br>
+                            <input type="text" class="app-input-text" id="platoon-leader" placeholder="Zugf&uuml;hrer" />
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Zugf&uuml;hrer:</label>
-                            <input type="text" class="form-text" id="platoon-leader" placeholder="Zugf&uuml;hrer" />
-                        </div>
-                        <div class="mb-3">
-                            <button class="btn btn-success" onclick="createPlatoon()">Speichern</button>
+                            <br />
+                            <button class="btn btn-success" data-bs-dismiss="modal" onclick="createPlatoon()">Speichern</button>
                         </div>
                     </div>
                 </div>
