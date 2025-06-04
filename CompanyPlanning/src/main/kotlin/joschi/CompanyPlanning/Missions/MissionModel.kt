@@ -12,7 +12,7 @@ class MissionModel () {
     @Id
     var id: UUID = UUID.randomUUID()
 
-    var name: String? = null
+    var missionName: String? = null
     var text: String? = null
     var finished: Boolean = false
     var storyMission: Boolean = false

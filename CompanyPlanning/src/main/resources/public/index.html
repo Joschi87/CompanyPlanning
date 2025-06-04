@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="./lib/google-fonts.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- load intern js function -->
-    <script src="js/app/app.js"></script>
+    <script src="js/app/platoon.js"></script>
+    <script src="js/app/mission.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top" id="navbar">
@@ -99,12 +100,15 @@
                     <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Schließen">X</button>
                 </div>
                 <div class="modal-body" id="missionBody">
-                    <div class="app-mission-modal-body">
+                    <div class="app-mission-modal-header">
                         <button type="button" class="btn btn-success app app-new-data-modal sticky-top" data-bs-target="#newMissionModal" data-bs-toggle="modal">Neue Mission erstellen</button>
                         <button type="button" class="btn btn-warning app app-update-data sticky-top" data-bs-target="#updateMissionModal" data-bs-toggle="modal">Update Mission</button>
-                        <button type="button" class="btn btn-danger app app-delete-checked-data sticky-top" onclick="">Auswahl löschen</button>
-                        <button type="button" class="btn btn-primary app sticky-top" data-bs-target="#pdfUploadModal" data-bs-toggle="modal">Missions PDF Import</button>
-                        <button type="button" class="btn btn-primary app sticky-top" data-bs-target="#pdfExportModal" data-bs-toggle="modal">Missions PDF Export</button>
+                        <button type="button" class="btn btn-danger app app-delete-checked-data sticky-top" onclick="">Auswahl löschen</button><br>
+                        <button type="button" class="btn btn-primary app app-mission-pdf-button sticky-top" data-bs-target="#pdfUploadModal" data-bs-toggle="modal">Missions PDF Import</button>
+                        <button type="button" class="btn btn-primary app app-mission-pdf-button sticky-top" data-bs-target="#pdfExportModal" data-bs-toggle="modal">Missions PDF Export</button>
+                    </div>
+                    <div class="app-mission-modal-body">
+                        <div id="listOfMissions"></div>
                     </div>
                 </div>
             </div>

@@ -7,6 +7,7 @@ import joschi.CompanyPlanning.lib.exception.CompanyPlanningException
 import joschi.CompanyPlanning.lib.exception.MissionExsitException
 import joschi.CompanyPlanning.lib.exception.WrongMissionTypeException
 import joschi.CompanyPlanning.Platoon.Platoonrepo
+import joschi.CompanyPlanning.lib.appLogger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,13 +22,16 @@ class MissionService @Autowired constructor(
     var missionRepo: MissionRepo,
     var platoonRepo: Platoonrepo){
 
+    private val log = appLogger(this::class.java)
+
     fun getAllMissions(): MutableList<MissionModel> {
         return missionRepo.findAll()
     }
 
     @Transactional
     fun createNewMission(model: MissionModel):ResponseEntity<String>{
-        if(!missionRepo.existsById(model.id) && !missionRepo.existsByName(model.name.toString())){
+        if(!missionRepo.existsById(model.id) && !missionRepo.existsByMissionName(model.missionName.toString())){
+            log.info(model.missionName.toString())
            missionRepo.saveAndFlush(model)
            if(missionRepo.existsById(model.id)){
                 return ResponseEntity<String>("Mission created", HttpStatus.CREATED)
@@ -36,8 +40,8 @@ class MissionService @Autowired constructor(
             if(missionRepo.existsById(model.id)){
                 throw MissionExsitException("Mission with the ID: ${model.id} exsit!")
             }
-            if(missionRepo.existsByName(model.name.toString())){
-                throw MissionExsitException("Mission with the name: ${model.name} already exsit!")
+            if(missionRepo.existsByMissionName(model.missionName.toString())){
+                throw MissionExsitException("Mission with the name: ${model.missionName} already exsit!")
             }
         }
         throw CompanyPlanningException("Something goes wrong")
@@ -92,7 +96,7 @@ class MissionService @Autowired constructor(
             platoonRepo.saveAndFlush(platoonModel?: platoon)
             missionRepo.saveAndFlush(missionModel)
 
-            return ResponseEntity<String>("Mission: ${missionModel.name} are active for ${platoonModel?.platoonname}", HttpStatus.ACCEPTED)
+            return ResponseEntity<String>("Mission: ${missionModel.missionName} are active for ${platoonModel?.platoonname}", HttpStatus.ACCEPTED)
         }
         if(!missionRepo.existsById(id))
             throw MissionExsitException("Mission with the ID: $id doesn\'t exsit")
@@ -114,7 +118,7 @@ class MissionService @Autowired constructor(
 
             missionRepo.saveAndFlush(missionModel)
 
-            return ResponseEntity<String>("Mission: ${missionRepo.getReferenceById(id).name} are inactive or the story mission are finished", HttpStatus.ACCEPTED)
+            return ResponseEntity<String>("Mission: ${missionRepo.getReferenceById(id).missionName} are inactive or the story mission are finished", HttpStatus.ACCEPTED)
         }else{
             if(!missionRepo.existsById(id))
                 throw MissionExsitException("Mission with the ID: $id doesn\'t exsit")
@@ -126,12 +130,12 @@ class MissionService @Autowired constructor(
 
     @Transactional
     fun createStoryMission(model: MissionModel): ResponseEntity<String>{
-        if(!missionRepo.existsByName(model.name.toString())){
+        if(!missionRepo.existsByMissionName(model.missionName.toString())){
             model.storyMission = true
             missionRepo.saveAndFlush(model)
-            return ResponseEntity<String>("Story mission ${model.name} saved!", HttpStatus.CREATED)
+            return ResponseEntity<String>("Story mission ${model.missionName} saved!", HttpStatus.CREATED)
         }else{
-            throw MissionExsitException("Mission with the name: ${model.name} already exist")
+            throw MissionExsitException("Mission with the name: ${model.missionName} already exist")
         }
     }
 
@@ -149,9 +153,9 @@ class MissionService @Autowired constructor(
                 platoonModel.timeActiveMission = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
                 missionRepo.saveAndFlush(missionModel)
                 platoonRepo.saveAndFlush(platoonModel)
-                return ResponseEntity<String>("Platoon: ${platoonModel.platoonname} has the story mission: ${missionModel.name} as activ mission", HttpStatus.ACCEPTED)
+                return ResponseEntity<String>("Platoon: ${platoonModel.platoonname} has the story mission: ${missionModel.missionName} as activ mission", HttpStatus.ACCEPTED)
             }else{
-                throw WrongMissionTypeException("Mission: ${missionModel.name} are no story mission")
+                throw WrongMissionTypeException("Mission: ${missionModel.missionName} are no story mission")
             }
         }catch (ex : EntityNotFoundException){
             throw MissionExsitException(ex.message)
