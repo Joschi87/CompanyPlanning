@@ -31,7 +31,7 @@ function loadAllMissionsForModalList(){
                             <div class="card card-body">
                                <strong>ID:</strong> <input type="text" value="${entry.id}" disabled /><br>
                                <strong>Mission Name:</strong> <input type="text" value="${entry.missionName}" id="update-name-${safeId}" required/><br>
-                               <strong></strong>
+                               <strong>Mission Beschreibung:</strong> <textarea class="form-control" id="exampleTextarea" rows="4" placeholder="Gib eine Missionsbeschreibung ein ....">${entry.text}</textarea>
                             </div>
                             <br>
                             <button class=" btn btn-warning app app-update-data" data-bs-dismiss="modal" id="update-button" onclick="updatePlatoon('${safeId}', '${entry.id}')">Update ${entry.platoonname}</button>

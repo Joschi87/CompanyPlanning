@@ -8,6 +8,7 @@ import joschi.CompanyPlanning.lib.exception.MissionExsitException
 import joschi.CompanyPlanning.lib.exception.WrongMissionTypeException
 import joschi.CompanyPlanning.Platoon.Platoonrepo
 import joschi.CompanyPlanning.lib.appLogger
+import joschi.CompanyPlanning.lib.exception.NoItemInDatabaseException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -25,7 +26,8 @@ class MissionService @Autowired constructor(
     private val log = appLogger(this::class.java)
 
     fun getAllMissions(): MutableList<MissionModel> {
-        return missionRepo.findAll()
+        return missionRepo.findAll().takeIf { it.isNotEmpty() }
+            ?: throw NoItemInDatabaseException("No Missions are created")
     }
 
     @Transactional
