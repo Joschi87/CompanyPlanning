@@ -2,7 +2,7 @@ function loadAllMissionsForModalList(){
     fetch('/mission', {
         method: 'GET',
         headers: {
-            'Accept': 'appliaction/json'
+            'Accept': 'application/json'
         }
     })
         .then(async res => {
@@ -19,7 +19,7 @@ function loadAllMissionsForModalList(){
                 ${data.map(entry => {
                 const safeId = `mission-${entry.id}`;// sichere ID ohne Leerzeichen
                 return `
-                    <li class="list-group-item d-flex flex-column align-items-start">
+                    <li class="list-group-item d-flex flex-column align-items-start app-mission-list">
                         <div class="d-flex w-100 justify-content-between align-items-center">
                             <div>
                                 <!-- <input class="form-check-input me-2" type="checkbox" id="${safeId}-checkbox" /> -->
@@ -31,15 +31,25 @@ function loadAllMissionsForModalList(){
                             <div class="card card-body">
                                <strong>ID:</strong> <input type="text" value="${entry.id}" disabled /><br>
                                <strong>Mission Name:</strong> <input type="text" value="${entry.missionName}" id="update-name-${safeId}" required/><br>
-                               <strong>Mission Beschreibung:</strong> <textarea class="form-control" id="exampleTextarea" rows="4" placeholder="Gib eine Missionsbeschreibung ein ....">${entry.text}</textarea>
+                               <strong>Mission Beschreibung:</strong> <textarea class="form-control" id="mission-text-${safeId}" rows="4" placeholder="Gib eine Missionsbeschreibung ein ....">${entry.text}</textarea>
+                               <strong>Status Finished?</strong> <input type="text" id="finished-${safeId}" value="">
+                               <strong>Status Story Mission?</strong> <input type="text" id="storyMission-${safeId}">
                             </div>
                             <br>
-                            <button class=" btn btn-warning app app-update-data" data-bs-dismiss="modal" id="update-button" onclick="updatePlatoon('${safeId}', '${entry.id}')">Update ${entry.platoonname}</button>
-                            <button class="btn btn-danger app" data-bs-dismiss="modal" onclick="deletePlatoon('${entry.id}')">L&ouml;schen</button>
+                            <button class=" btn btn-warning app app-update-data" data-bs-dismiss="modal" id="update-button" onclick="updateMission('${safeId}', '${entry.id}')">Update ${entry.platoonname}</button>
+                            <button class="btn btn-danger app" data-bs-dismiss="modal" onclick="deleteMission('${entry.id}')">L&ouml;schen</button>
                         </div>
                     </li>`;
             }).join('')}
             </ul>`;
         })
         .catch(err => console.error("Fehler beim Laden der Züge:", err));
+}
+
+function updateMission(safeId, uuid){
+
+}
+
+function deleteMission(uuid){
+    
 }

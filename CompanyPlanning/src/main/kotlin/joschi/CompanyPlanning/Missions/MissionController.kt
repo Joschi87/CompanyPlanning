@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
@@ -23,12 +24,12 @@ class MissionController @Autowired constructor(var missionService: MissionServic
     }
 
     @PostMapping
-    fun createMission(missionModel: MissionModel): ResponseEntity<String> {
+    fun createMission(@RequestBody missionModel: MissionModel): ResponseEntity<String> {
         return missionService.createNewMission(missionModel)
     }
 
     @PutMapping
-    fun updateMission(missionModel: MissionModel): ResponseEntity<String> {
+    fun updateMission(@RequestBody missionModel: MissionModel): ResponseEntity<String> {
         return missionService.updateMission(missionModel)
     }
 
