@@ -34,6 +34,7 @@ function loadAllMissionsForModalList(){
                                <strong>Mission Beschreibung:</strong> <textarea class="form-control" id="mission-text-${safeId}" rows="4" placeholder="Gib eine Missionsbeschreibung ein ....">${entry.text}</textarea>
                                <strong>Status Finished?</strong> <input type="text" id="finished-${safeId}" value="">
                                <strong>Status Story Mission?</strong> <input type="text" id="storyMission-${safeId}">
+                               <strong>Zugewissener Zug:</strong> <input type="text" id="plattonForMission-${safeId}" value="${entry.platoon}" />
                             </div>
                             <br>
                             <button class=" btn btn-warning app app-update-data" data-bs-dismiss="modal" id="update-button" onclick="updateMission('${safeId}', '${entry.id}')">Update ${entry.platoonname}</button>
@@ -47,9 +48,55 @@ function loadAllMissionsForModalList(){
 }
 
 function updateMission(safeId, uuid){
+    const missionName = "update-name-" +safeId;
+    const missionText = "mission-text-" + safeId;
+    const finishedID = "finished-" + safeId;
+    const storyMissionID = "storyMission-" + safeId;
+    const platoon = "platoonForMission-" + safeId;
+
+    fetch("/mission",{
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: uuid,
+            missionName: document.getElementById(missionName).value,
+            missionText: document.getElementById(missionText).value,
+            finished: document.getElementById(finishedID).value,
+            storyMission: document.getElementById(storyMissionID).value,
+            platoon: document.getElementById(platoon).value
+        })
+    })
+    .then(res => {
+        if (res.status === 202) {
+            document.getElementById('successModalBody').textContent = "Mission: " + document.getElementById(missionName).value + ", wurde erfolgreich aktualisiert.";
+            new bootstrap.Modal(document.getElementById('successModal')).show();
+        }else{
+            document.getElementById('errorModalBody').textContent = "Responsecode: " + res.status `<br/>` + "Fehlermeldung: " + res.text();
+            new bootstrap.Modal(document.getElementById('errorModal')).show();
+        }
+    })
 
 }
 
 function deleteMission(uuid){
-    
+    fetch("/mission/" + uuid,{
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json'
+        }})
+        .then(async res => {
+            if (res.status === 204) {
+                document.getElementById('successModalBody').textContent = "Die Mission wurde erfolgreich gelöscht!";
+                new bootstrap.Modal(document.getElementById('successModal')).show();
+            }if(res.status === 409){
+                res.text().then(errorMessage => {
+                    document.getElementById('errorModalBody').innerHTML =
+                        "Responsecode: " + res.status + "<br/>" +
+                        "Fehlermeldung: " + errorMessage;
+                    new bootstrap.Modal(document.getElementById('errorModal')).show();
+                });
+            }
+        })
 }

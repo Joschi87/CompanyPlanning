@@ -33,8 +33,8 @@ class MissionController @Autowired constructor(var missionService: MissionServic
         return missionService.updateMission(missionModel)
     }
 
-    @DeleteMapping
-    fun deleteMission(id: UUID): ResponseEntity<String>{
+    @DeleteMapping("/{id}")
+    fun deleteMission(@PathVariable id: UUID): ResponseEntity<String>{
         return missionService.deleteMission(id)
     }
 
@@ -44,8 +44,8 @@ class MissionController @Autowired constructor(var missionService: MissionServic
     }
 
     @PutMapping("/activ")
-    fun setMissionActiv(id: UUID, platoonModel: PlatoonModel): ResponseEntity<String> {
-        return missionService.setMissionActive(id, platoonModel)
+    fun setMissionActiv(id: UUID, platoon: String): ResponseEntity<String> {
+        return missionService.setMissionActive(id, platoon)
     }
 
     @PutMapping("/inactiv")
@@ -59,7 +59,7 @@ class MissionController @Autowired constructor(var missionService: MissionServic
     }
 
     @PutMapping("/story")
-    fun setStoryMissionActiv(id: UUID, platoonModel: PlatoonModel): ResponseEntity<String> {
-        return missionService.setStoryMissionActive(id, platoonModel)
+    fun setStoryMissionActiv(id: UUID, platoon: String): ResponseEntity<String> {
+        return missionService.setStoryMissionActive(id, platoon)
     }
 }

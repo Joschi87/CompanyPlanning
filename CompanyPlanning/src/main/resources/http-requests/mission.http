@@ -11,5 +11,6 @@ Content-Type: application/json
 
 {
     "missionName": "Test Mission 1",
-    "text": "Dies ist eine Test Mission"
+    "text": "Dies ist eine Test Mission",
+    "platoon": "test 1234"
 }
