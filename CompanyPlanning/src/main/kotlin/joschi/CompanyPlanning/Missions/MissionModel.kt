@@ -17,6 +17,6 @@ class MissionModel () {
     var finished: Boolean = false
     var storyMission: Boolean = false
     var activ: Boolean = false
-    var platoon: String = ""
+    var platoon: String = "Nicht zugewiesen"
 
 }
