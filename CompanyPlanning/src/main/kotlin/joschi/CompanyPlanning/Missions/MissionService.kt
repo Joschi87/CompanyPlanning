@@ -65,8 +65,9 @@ class MissionService @Autowired constructor(
     @Transactional
     fun updateMission(model: MissionModel): ResponseEntity<String> {
         val modelFromDatabase = missionRepo.getReferenceById(model.id)
-        if (model.text != null) {
+        if (model.text != null || model.platoon != null) {
             modelFromDatabase.text = model.text
+            modelFromDatabase.platoon = model.platoon
 
             if(model.storyMission)
                 modelFromDatabase.storyMission = true
@@ -82,24 +83,27 @@ class MissionService @Autowired constructor(
     }
 
     @Transactional
-    fun setMissionActive(id: UUID, platoon: String): ResponseEntity<String> {
-        var platoonModal = platoonRepo.getReferenceByPlatoonname(platoon)
-        if(!checkIfPlatoonInStoryMission(platoonModal.platoonname))
-            return ResponseEntity<String>("Platoon: ${platoonModal.platoonname} is currently in a story mission", HttpStatus.CONFLICT)
-        if(missionRepo.existsById(id) && platoonRepo.existsById(platoonModal.id)){
+    fun setMissionActive(id: UUID, platoon: PlatoonModel): ResponseEntity<String> {
+        if(!checkIfPlatoonInStoryMission(platoon.platoonname))
+            return ResponseEntity<String>("Platoon: ${platoon.platoonname} is currently in a story mission", HttpStatus.CONFLICT)
+        if(missionRepo.existsById(id) && platoonRepo.existsById(platoon.id)){
            val missionModel = missionRepo.getReferenceById(id)
-            missionModel.platoon = platoon
-            missionModel.activ = true
-            platoonModal.missionModels.plusElement(missionModel)
-            platoonModal.timeActiveMission = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+            val platoonModel = platoonRepo.getReferenceByPlatoonname(platoon.platoonname)
 
-            platoonRepo.saveAndFlush(platoonModal)
+            platoonModel?.missionModels?.plusElement(missionModel)
+            missionModel.activ = true
+            missionModel.platoon = platoonModel
+            platoonModel?.timeActiveMission = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+
+            platoonRepo.saveAndFlush(platoonModel?: platoon)
             missionRepo.saveAndFlush(missionModel)
 
-            return ResponseEntity<String>("Mission: ${missionModel.missionName} are active for ", HttpStatus.ACCEPTED)
+            return ResponseEntity<String>("Mission: ${missionModel.missionName} are active for ${platoonModel?.platoonname}", HttpStatus.ACCEPTED)
         }
         if(!missionRepo.existsById(id))
             throw MissionExsitException("Mission with the ID: $id doesn\'t exsit")
+        if(!platoonRepo.existsById(platoon.id))
+            throw MissionExsitException("Platoon with the ID: ${platoon.id} doesn\'t exsit")
         throw CompanyPlanningException("Something goes wrong")
     }
 
@@ -107,15 +111,13 @@ class MissionService @Autowired constructor(
     fun setMissionInactive(id: UUID): ResponseEntity<String> {
         if(missionRepo.existsById(id) && platoonRepo.existsById(id)){
             val missionModel = missionRepo.getReferenceById(id)
-            val platoonModel = platoonRepo.getReferenceByPlatoonname(missionModel.platoon)
 
-            platoonModel.timeActiveMission = ""
             missionModel.activ = false
+            missionModel.platoon = null
 
             if (missionModel.storyMission)
                 missionModel.finished = true
 
-            platoonRepo.saveAndFlush(platoonModel)
             missionRepo.saveAndFlush(missionModel)
 
             return ResponseEntity<String>("Mission: ${missionRepo.getReferenceById(id).missionName} are inactive or the story mission are finished", HttpStatus.ACCEPTED)
@@ -140,8 +142,7 @@ class MissionService @Autowired constructor(
     }
 
     @Transactional
-    fun setStoryMissionActive(id: UUID, platoon: String): ResponseEntity<String>{
-        var platoonModel = platoonRepo.getReferenceByPlatoonname(platoon)
+    fun setStoryMissionActive(id: UUID, platoonModel: PlatoonModel): ResponseEntity<String>{
         if(!checkIfPlatoonInStoryMission(platoonModel.platoonname))
             return ResponseEntity<String>("Platoon: ${platoonModel.platoonname} is currently in a story mission", HttpStatus.CONFLICT)
         val missionModel: MissionModel
@@ -150,6 +151,7 @@ class MissionService @Autowired constructor(
             if(missionModel.storyMission){
                 platoonModel.missionModels.plusElement(missionModel)
                 missionModel.activ = true
+                missionModel.platoon = platoonModel
                 platoonModel.timeActiveMission = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
                 missionRepo.saveAndFlush(missionModel)
                 platoonRepo.saveAndFlush(platoonModel)

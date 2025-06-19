@@ -17,6 +17,9 @@ class MissionModel () {
     var finished: Boolean = false
     var storyMission: Boolean = false
     var activ: Boolean = false
-    var platoon: String = "Nicht zugewiesen"
+
+    @ManyToOne
+    @JoinColumn(name = "platoon_id")  // Name der Spalte in der Datenbank
+    var platoon: PlatoonModel? = null
 
 }

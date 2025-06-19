@@ -13,6 +13,7 @@ class PlatoonModel() {
 
     var platoonname: String = ""
     var leader: String = ""
+    @OneToMany(mappedBy = "platoon", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var missionModels: List<MissionModel> = mutableListOf()
     var timeActiveMission: String = ""
 }
