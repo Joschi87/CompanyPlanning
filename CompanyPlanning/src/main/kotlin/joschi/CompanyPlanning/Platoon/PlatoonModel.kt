@@ -16,4 +16,5 @@ class PlatoonModel() {
     @OneToMany(mappedBy = "platoon", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var missionModels: List<MissionModel> = mutableListOf()
     var timeActiveMission: String = ""
+
 }

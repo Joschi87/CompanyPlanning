@@ -10,6 +10,16 @@ POST http://localhost:9000/mission
 Content-Type: application/json
 
 {
-    "missionName": "Test Mission 1",
+    "missionName": "Test Mission 2",
     "text": "Dies ist eine Test Mission"
+}
+
+###PUT Request
+PUT http://localhost:9000/mission
+Content-Type: application/json
+
+{
+  "id": "c30ef5bb-b006-4711-80d8-14cf1be0ef42",
+  "missionName": "Test Mission update",
+  "text": "Dies ist eine Test Mission"
 }

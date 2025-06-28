@@ -64,7 +64,9 @@ class MissionService @Autowired constructor(
 
     @Transactional
     fun updateMission(model: MissionModel): ResponseEntity<String> {
+        log.info(model.missionName.toString())
         val modelFromDatabase = missionRepo.getReferenceById(model.id)
+        log.info(modelFromDatabase.missionName.toString())
         if (model.text != null || model.platoon != null) {
             modelFromDatabase.text = model.text
             modelFromDatabase.platoon = model.platoon

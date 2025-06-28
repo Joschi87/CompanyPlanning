@@ -19,7 +19,8 @@ class MissionModel () {
     var activ: Boolean = false
 
     @ManyToOne
-    @JoinColumn(name = "platoon_id")  // Name der Spalte in der Datenbank
+    @JoinColumn(name = "platoon_id") // Name der Spalte in der Datenbank
     var platoon: PlatoonModel? = null
+
 
 }
