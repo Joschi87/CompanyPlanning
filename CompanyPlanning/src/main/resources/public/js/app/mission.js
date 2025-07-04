@@ -47,9 +47,55 @@ function loadAllMissionsForModalList(){
 }
 
 function updateMission(safeId, uuid){
-
+    fetch('/mission',{
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: uuid,
+            missionName: document.getElementById('update-name-' + safeId).value,
+            text: document.getElementById('mission-text-' + safeId).value,
+            finished: document.getElementById('finished-' + safeId).value,
+            storyMission: document.getElementById('storyMission-' + safeId).value,
+        })
+    })
+    .then(res => {
+        if (res.status === 202) {
+            document.getElementById('successModalBody').textContent = "Mission: " + document.getElementById('update-name-' + safeId).value + ", wurde erfolgreich aktualisiert.";
+            new bootstrap.Modal(document.getElementById('successModal')).show();
+            new bootstrap.Modal.getInstence(document.getElementById("platoon")).hide();
+        }else{
+            document.getElementById('errorModalBody').textContent = "Responsecode: " + res.status `<br/>` + "Fehlermeldung: " + res.text();
+            new bootstrap.Modal(document.getElementById('errorModal')).show();
+            new bootstrap.Modal.getInstence(document.getElementById("platoon")).hide();
+        }
+    })
 }
 
 function deleteMission(uuid){
     
+}
+
+function createMission(){
+    fetch('/mission',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            missionName: document.getElementById('new-mission-name').value,
+            text: document.getElementById('new-mission-description').value
+        })
+    }) .then(res => {
+        if (res.status === 201) {
+            document.getElementById('successModalBody').textContent = "Mission: " + document.getElementById('new-mission-name').value + ", wurde erfolgreich erstellt.";
+            new bootstrap.Modal(document.getElementById('successModal')).show();
+            new bootstrap.Modal.getInstence(document.getElementById("platoon")).hide();
+        }else{
+            document.getElementById('errorModalBody').textContent = "Responsecode: " + res.status `<br/>` + "Fehlermeldung: " + res.text();
+            new bootstrap.Modal(document.getElementById('errorModal')).show();
+            new bootstrap.Modal.getInstence(document.getElementById("platoon")).hide();
+        }
+    })
 }

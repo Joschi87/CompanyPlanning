@@ -3,6 +3,7 @@ package joschi.CompanyPlanning.Missions
 
 import joschi.CompanyPlanning.Platoon.PlatoonModel
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
@@ -24,16 +26,19 @@ class MissionController @Autowired constructor(var missionService: MissionServic
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     fun createMission(@RequestBody missionModel: MissionModel): ResponseEntity<String> {
         return missionService.createNewMission(missionModel)
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     fun updateMission(@RequestBody missionModel: MissionModel): ResponseEntity<String> {
         return missionService.updateMission(missionModel)
     }
 
     @DeleteMapping
+    @ResponseStatus(HttpStatus.CONTINUE)
     fun deleteMission(id: UUID): ResponseEntity<String>{
         return missionService.deleteMission(id)
     }
@@ -44,21 +49,25 @@ class MissionController @Autowired constructor(var missionService: MissionServic
     }
 
     @PutMapping("/activ")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     fun setMissionActiv(id: UUID, platoonModel: PlatoonModel): ResponseEntity<String> {
         return missionService.setMissionActive(id, platoonModel)
     }
 
     @PutMapping("/inactiv")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     fun setMissionInactiv(id: UUID): ResponseEntity<String> {
         return missionService.setMissionInactive(id)
     }
 
     @PostMapping("/story")
+    @ResponseStatus(HttpStatus.CREATED)
     fun createStoryMission(missionModel: MissionModel): ResponseEntity<String>{
         return missionService.createStoryMission(missionModel)
     }
 
     @PutMapping("/story")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     fun setStoryMissionActiv(id: UUID, platoonModel: PlatoonModel): ResponseEntity<String> {
         return missionService.setStoryMissionActive(id, platoonModel)
     }

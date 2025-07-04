@@ -1,0 +1,5 @@
+### GET Platoon
+GET http://localhost:9000/platoon
+
+### GET Platoon by Name
+GET http://localhost:9000/platoon/test

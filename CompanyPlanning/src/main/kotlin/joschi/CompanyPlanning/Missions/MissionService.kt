@@ -86,15 +86,15 @@ class MissionService @Autowired constructor(
 
     @Transactional
     fun setMissionActive(id: UUID, platoon: PlatoonModel): ResponseEntity<String> {
-        if(!checkIfPlatoonInStoryMission(platoon.platoonname))
-            return ResponseEntity<String>("Platoon: ${platoon.platoonname} is currently in a story mission", HttpStatus.CONFLICT)
+        /*if(!checkIfPlatoonInStoryMission(platoon.platoonname))
+            return ResponseEntity<String>("Platoon: ${platoon.platoonname} is currently in a story mission", HttpStatus.CONFLICT)*/
         if(missionRepo.existsById(id) && platoonRepo.existsById(platoon.id)){
            val missionModel = missionRepo.getReferenceById(id)
             val platoonModel = platoonRepo.getReferenceByPlatoonname(platoon.platoonname)
 
-            platoonModel?.missionModels?.plusElement(missionModel)
+            platoonModel?.mission = missionModel.missionName.toString()
             missionModel.activ = true
-            missionModel.platoon = platoonModel
+            missionModel.platoon = platoonModel.platoonname
             platoonModel?.timeActiveMission = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
 
             platoonRepo.saveAndFlush(platoonModel?: platoon)
@@ -115,7 +115,7 @@ class MissionService @Autowired constructor(
             val missionModel = missionRepo.getReferenceById(id)
 
             missionModel.activ = false
-            missionModel.platoon = null
+            missionModel.platoon = ""
 
             if (missionModel.storyMission)
                 missionModel.finished = true
@@ -145,15 +145,15 @@ class MissionService @Autowired constructor(
 
     @Transactional
     fun setStoryMissionActive(id: UUID, platoonModel: PlatoonModel): ResponseEntity<String>{
-        if(!checkIfPlatoonInStoryMission(platoonModel.platoonname))
-            return ResponseEntity<String>("Platoon: ${platoonModel.platoonname} is currently in a story mission", HttpStatus.CONFLICT)
+       /* if(!checkIfPlatoonInStoryMission(platoonModel.platoonname))
+            return ResponseEntity<String>("Platoon: ${platoonModel.platoonname} is currently in a story mission", HttpStatus.CONFLICT) */
         val missionModel: MissionModel
         try {
             missionModel = missionRepo.getReferenceById(id)
             if(missionModel.storyMission){
-                platoonModel.missionModels.plusElement(missionModel)
+                platoonModel.mission = missionModel.missionName.toString()
                 missionModel.activ = true
-                missionModel.platoon = platoonModel
+                missionModel.platoon = platoonModel.platoonname
                 platoonModel.timeActiveMission = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
                 missionRepo.saveAndFlush(missionModel)
                 platoonRepo.saveAndFlush(platoonModel)
@@ -166,7 +166,4 @@ class MissionService @Autowired constructor(
         }
     }
 
-    fun checkIfPlatoonInStoryMission(name: String): Boolean {
-        return platoonRepo.getReferenceByPlatoonname(name)?.missionModels?.any { it.storyMission && !it.finished } ?: false
-    }
 }

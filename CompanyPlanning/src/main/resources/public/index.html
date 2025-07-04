@@ -101,14 +101,39 @@
                 </div>
                 <div class="modal-body" id="missionBody">
                     <div class="app-mission-modal-header">
-                        <button type="button" class="btn btn-success app app-new-data-modal sticky-top" data-bs-target="#newMissionModal" data-bs-toggle="modal">Neue Mission erstellen</button>
-                        <button type="button" class="btn btn-warning app app-update-data sticky-top" data-bs-target="#updateMissionModal" data-bs-toggle="modal">Update Mission</button>
-                        <button type="button" class="btn btn-danger app app-delete-checked-data sticky-top" onclick="">Auswahl löschen</button><br>
+                        <button type="button" class="btn btn-success app app-new-data-modal sticky-top" data-bs-target="#newMissionModal" data-bs-toggle="modal">Neue Mission erstellen</button><br>
                         <button type="button" class="btn btn-primary app app-mission-pdf-button sticky-top" data-bs-target="#pdfUploadModal" data-bs-toggle="modal">Missions PDF Import</button>
                         <button type="button" class="btn btn-primary app app-mission-pdf-button sticky-top" data-bs-target="#pdfExportModal" data-bs-toggle="modal">Missions PDF Export</button>
                     </div>
                     <div class="app-mission-modal-body">
                         <div id="listOfMissions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="newMissionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog app-modal custom-width">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="newMissionModalLabel">Neue Mission erstellen</h5>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Schließen">X</button>
+                </div>
+                <div class="modal-body" id="newMissionModalBody">
+                    <div class="app-platoon-modal-body">
+                        <div class="mb-lg-5">
+                            <label for="platoon" class="form-label"><strong>Name der Mission:</strong></label><br>
+                            <input type="text" class="app-input-text" id="new-mission-name" placeholder="Name des Zuges" />
+                        </div>
+                        <br/>
+                        <div class="mb-lg-5">
+                            <label class="form-label"><strong>Missionsbeschreibung:</strong></label><br>
+                            <textarea class="form-control" id="new-mission-description" rows="4" placeholder="Gib eine Missionsbeschreibung ein ...."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <br />
+                            <button class="btn btn-success" data-bs-dismiss="modal" onclick="createMission()">Speichern</button>
+                        </div>
                     </div>
                 </div>
             </div>
